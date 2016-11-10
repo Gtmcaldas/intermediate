@@ -1,5 +1,12 @@
-Meteor.subscribe('recipes');
+Template.Recipes.onCreated(function(){
+    var self = this;
+    self.autorun(function(){
+        self.subscribe('recipes');
+    });
+});
 
-if (Meteor.settings && Meteor.settings.public && Meteor.settings.public.ga && Meteor.settings.public.ga.account) {
-	console.log(Meteor.settings.public.ga.account);
-}
+Template.Recipes.helpers({
+    recipes: ()=> {
+        return Recipes.find({});
+    }
+});

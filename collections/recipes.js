@@ -1,7 +1,10 @@
 Recipes = new Mongo.Collection('recipes');
 
 Recipes.allow ({
-	insert: function(userId, dic) {
+	insert: function(userId, doc) {
+		return !!userId;
+	},
+	update: function(userId, doc) {
 		return !!userId;
 	}
 });
@@ -27,6 +30,14 @@ RecipesSchema = new SimpleSchema ({
 	ingredients: {
 		type: [Ingredient]
 	},
+	inMenu: {
+		type: Boolean,
+		defaultValue: false,
+		optional: true,
+		autoform: {
+			type: "hidden"
+		}
+	},
 	author: {
 		type: String,
 		label: "Autor",
@@ -43,6 +54,17 @@ RecipesSchema = new SimpleSchema ({
 		autoValue: function() {
 			return new Date()
 		}
+	}
+});
+
+Meteor.methods({
+	toggleMenuItem: function(id, currentState) {
+		console.log(currentState);
+		Recipes.update (id, {
+			$set: {
+			inMenu: !currentState
+			}
+		});
 	}
 });
 
