@@ -23,7 +23,7 @@ RecipesSchema = new SimpleSchema ({
 		type: String,
 		label: "Nome"
 	},
-	Desc: {
+	desc: {
 		type: String,
 		label: "Descrição"
 	},
@@ -59,12 +59,14 @@ RecipesSchema = new SimpleSchema ({
 
 Meteor.methods({
 	toggleMenuItem: function(id, currentState) {
-		console.log(currentState);
 		Recipes.update (id, {
 			$set: {
 			inMenu: !currentState
 			}
 		});
+	},
+	deleteRecipe: function(id) {
+		Recipes.remove(id);
 	}
 });
 
